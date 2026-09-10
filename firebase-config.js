@@ -13,6 +13,15 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+console.log('Firebase app initialized');
+
+// Get Firebase services and expose them as globals
+// These will be accessible throughout the app
+db = firebase.database(app);  // Realtime Database, not Firestore
+storage = firebase.storage(app);
+auth = firebase.auth(app);
+
+console.log('Firebase services initialized:', { db, storage, auth });
 
 

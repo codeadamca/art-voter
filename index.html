@@ -1,225 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art Voter</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        button {
-            padding: 12px 24px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background-color: #fff;
-            color: #667eea;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-vote {
-            background-color: #667eea;
-            color: white;
-            padding: 8px 16px;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-
-        .btn-vote:hover {
-            background-color: #764ba2;
-        }
-
-        /* Home Page Styles */
-        #homePage {
-            display: block;
-        }
-
-        #uploadPage {
-            display: none;
-        }
-
-        .art-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .art-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .art-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .art-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .art-info {
-            padding: 15px;
-        }
-
-        .art-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .art-votes {
-            color: #667eea;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: white;
-            padding: 40px;
-            font-size: 1.2em;
-        }
-
-        /* Upload Page Styles */
-        .upload-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .upload-container h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 1em;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .preview-image {
-            margin-top: 10px;
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 5px;
-        }
-
-        .form-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .loading {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .error {
-            color: #e74c3c;
-            padding: 10px;
-            background-color: #fadbd8;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .success {
-            color: #27ae60;
-            padding: 10px;
-            background-color: #d5f4e6;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
+
     <div class="container">
         <header>
             <h1>🎨 Art Voter</h1>
@@ -229,6 +19,8 @@
         <div class="controls">
             <button class="btn-primary" id="homeBtn">Home</button>
             <button class="btn-secondary" id="uploadBtn">Upload Art</button>
+            <button class="btn-danger" id="resetVotesBtn">Reset Votes</button>
+            <button class="btn-danger" id="resetAllBtn">Reset All</button>
         </div>
 
         <!-- Home Page -->
@@ -236,6 +28,14 @@
             <div id="artGrid" class="art-grid"></div>
             <div id="emptyState" class="empty-state" style="display: none;">
                 No art pieces yet. Be the first to upload!
+            </div>
+        </div>
+
+        <!-- Image Lightbox Modal -->
+        <div id="imageModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <img id="modalImage" src="" alt="Full size art">
             </div>
         </div>
 
@@ -268,17 +68,19 @@
 
     <!-- ============================================ -->
     <!-- Firebase SDK from Google CDN (v12.18.0)    -->
+    <!-- Using compat version for .ref() support    -->
     <!-- ============================================ -->
     <!-- Core Firebase App Library -->
-    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
     
-    <!-- Firebase Services -->
-    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js"></script>
+    <!-- Firebase Services (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
 
     <!-- Local Configuration and App Logic -->
     <script src="firebase-config.js"></script>
     <script src="app.js"></script>
+
 </body>
 </html>
